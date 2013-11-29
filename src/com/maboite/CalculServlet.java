@@ -16,30 +16,19 @@ import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
-import com.google.appengine.api.taskqueue.TaskOptions.Method;
 
 @SuppressWarnings("serial")
-public class ChercherServlet extends HttpServlet {
+public class CalculServlet extends HttpServlet {
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)	throws IOException {
-		
-		String nom = req.getParameter("nom");
-		System.out.println("nom="+nom);
-		
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Query query = new Query("Etudiant");
-		PreparedQuery pq = datastore.prepare(query);
-		for(Entity entity : pq.asIterable()){
-			Long num = (Long)entity.getProperty("numero");
-			System.out.println(num);
+		System.out.println("Debut tache de fond");
+		for(int i=0; i<20; i++){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+			}
 		}
-		
-		Queue queue = QueueFactory.getDefaultQueue();	// envoi tâche dans file
-		queue.add(TaskOptions.Builder.withUrl("/calculTacheDeFond").method(Method.GET));
-		
-		resp.sendRedirect("index.html");
-		
-
+		System.out.println("Fin tache de fond");
 	}
 	
 }
